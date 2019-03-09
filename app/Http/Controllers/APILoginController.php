@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Exceptions\Handler;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Http\Request;
 use Validator;
 use JWTFactory;
@@ -13,6 +15,16 @@ use App\Http\Controllers\Controller;
 
 class APILoginController extends Controller
 {
+     /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('JWT', ['except' => ['login']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,7 +64,7 @@ class APILoginController extends Controller
      */
     public function show($id)
     {
-        //
+    
     }
 
     /**
@@ -90,31 +102,70 @@ class APILoginController extends Controller
     }
 
     public function login(Request $request)
-    {   //dd('working');
-        $user =new User;
-        $user->email='pratik.korade@tacto.in';
-        $user->password='password1';
-        //$user=['email'=>,'password'=>'password1'];
-        $ktoken=JWTAuth::fromUser($user);
-        //dd($ktoken);
+    {   
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password'=> 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors());
-        }
+            }
         $credentials = $request->only('email', 'password');
-        //dd($credentials);
-        $token=JWTAuth::attempt($credentials);
-        //dd($token);
-        // try {
-        //     if (! $token = JWTAuth::attempt($credentials)) {
-        //         return response()->json(['error' => 'invalid_credentials'], 401);
-        //     }
-        // } catch (JWTException $e) {
-        //     return response()->json(['error' => 'could_not_create_token'], 500);
+       /* without database */
+        // $user =new User;
+        // $user->email='pratik.korade@tacto.in';
+        // $user->password='password1';
+      
+        // if(($credentials['email']==$user->email)&&($credentials['password']==$user->password))
+        // {   $ktoken=JWTAuth::fromUser($user);
+        //     return response()->json(compact('ktoken'));
         // }
-        // return response()->json(compact('token'));
+
+
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+        return response()->json(compact('token'));
     }
+    
+    public function token()
+    {   
+        // try{
+        if(JWTAuth::parseToken()->authenticate())
+        {
+            return response()->json(['error' => false, 'status' => 200, 'token' => $token]);
+        }
+        // } catch (TokenExpiredException $e) {
+        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        // } catch (TokenInvalidException $e) {
+        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        // } catch (JWTException $e) {
+        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        // } catch (PayloadException $e) {
+        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        // } catch (Exception $e) {
+        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        // }
+        // if(!empty($token)) {
+        //     return response()->json(['error' => false, 'status' => 200, 'token' => $token]);
+        // } else {
+        //     return response()->json(['error' => true, 'status' => 404, 'message' => 'Token not found']);
+        // }
+    }
+
+    // public function refresh()
+    // {
+    //     return $this->respondWithToken(auth()->refresh());
+    // }
+    //   public function logout()
+    // {
+    //     auth()->logout();
+
+    //     return response()->json(['message' => 'Successfully logged out']);
+    // }
+
 }

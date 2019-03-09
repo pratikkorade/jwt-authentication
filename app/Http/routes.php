@@ -14,6 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/token', function () {
+//     return view('token');
+// });
+Route::post('login', 'APILoginController@login');
+Route::get('login', 'APILoginController@index');
+Route::get('logout', 'APILoginController@logout');
+Route::post('refresh', 'APILoginController@refresh');
+Route::post('me', ['before' => 'jwt-auth', function() {
 
-Route::post('user/login', 'APILoginController@login');
-Route::get('user/login', 'APILoginController@index');
+    $user = JWTAuth::parseToken()->toUser();
+
+    return Response::json(compact('user'));
+}]);
+Route::post('token', 'APILoginController@token');
