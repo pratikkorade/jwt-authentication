@@ -19,12 +19,6 @@ Route::get('/', function () {
 // });
 Route::post('login', 'APILoginController@login');
 Route::get('login', 'APILoginController@index');
-Route::get('logout', 'APILoginController@logout');
-Route::post('refresh', 'APILoginController@refresh');
-Route::post('me', ['before' => 'jwt-auth', function() {
-
-    $user = JWTAuth::parseToken()->toUser();
-
-    return Response::json(compact('user'));
-}]);
+Route::post('logout', 'APILoginController@logout');
+//Route::post('refresh', 'APILoginController@refresh');
 Route::post('token', 'APILoginController@token');

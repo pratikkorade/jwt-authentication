@@ -2,9 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
+use JWTFactory;
 
-class JWT
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Closure;
+use JWTAuth;
+class jwt
 {
     /**
      * Handle an incoming request.
@@ -14,9 +17,7 @@ class JWT
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {   if(JWTAuth::parseToken()->authenticate())
-        {
+    {   //JWTAuth::parseToken()->authenticate();
         return $next($request);
     }
-}
 }

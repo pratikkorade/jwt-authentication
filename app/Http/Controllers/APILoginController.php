@@ -22,7 +22,7 @@ class APILoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWT', ['except' => ['login']]);
+        $this->middleware('jwt', ['except' => ['login','index']]);
     }
 
     /**
@@ -123,7 +123,8 @@ class APILoginController extends Controller
 
 
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            $customClaim = ['key' => 'value'];
+            if (! $token = JWTAuth::attempt($credentials,$customClaim)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
         } catch (JWTException $e) {
@@ -134,38 +135,51 @@ class APILoginController extends Controller
     
     public function token()
     {   
-        // try{
+        try{
         if(JWTAuth::parseToken()->authenticate())
         {
-            return response()->json(['error' => false, 'status' => 200, 'token' => $token]);
+            return response()->json(['error' => false, 'status' => 200, 'message'=>'token is correct','jwt'=>JWTAuth::getPayload()->get('key')]);
         }
-        // } catch (TokenExpiredException $e) {
-        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
-        // } catch (TokenInvalidException $e) {
-        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
-        // } catch (JWTException $e) {
-        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
-        // } catch (PayloadException $e) {
-        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
-        // } catch (Exception $e) {
-        //     return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
-        // }
-        // if(!empty($token)) {
-        //     return response()->json(['error' => false, 'status' => 200, 'token' => $token]);
-        // } else {
-        //     return response()->json(['error' => true, 'status' => 404, 'message' => 'Token not found']);
-        // }
+        } catch (TokenExpiredException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (JWTException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (PayloadException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (Exception $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        }
+        if(!empty($token)) {
+            return response()->json(['error' => false, 'status' => 200, 'token' => $token]);
+        } else {
+            return response()->json(['error' => true, 'status' => 404, 'message' => 'Token not found']);
+        }
     }
 
     // public function refresh()
     // {
     //     return $this->respondWithToken(auth()->refresh());
     // }
-    //   public function logout()
-    // {
-    //     auth()->logout();
 
-    //     return response()->json(['message' => 'Successfully logged out']);
-    // }
-
+    public function logout() {
+        try {
+            $token = JWTAuth::getToken();
+            if ($token) {
+                JWTAuth::invalidate($token);
+            }
+            return response()->json(['message' => 'Successfully logged out']);
+        } catch (TokenExpiredException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' =>'Token Is Expired' ], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => 'Token Is Invalid '], 401);
+        } catch (JWTException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (InvalidClaimException $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        } catch (Exception $e) {
+            return response()->json(['code' => $e->getStatusCode(), 'message' => $e->getMessage()], 401);
+        }
+    }
 }
