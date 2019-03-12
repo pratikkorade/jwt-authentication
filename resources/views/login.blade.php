@@ -1,143 +1,173 @@
 
-<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="css/util.css">
-<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
+  
+<!DOCTYPE html>
+<html>
 
+<head>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <meta name="google-signin-client_id" content="469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com">
+    </head>
+<style>
+    :root {
+        --input-padding-x: 1.5rem;
+        --input-padding-y: .75rem;
+    }
+    .inline-block{
+        float: left;
+    }
+    body {
+        background: #007bff;
+        background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+    .card-signin {
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+    }
+    .card-signin .card-title {
+        margin-bottom: 2rem;
+        font-weight: 300;
+        font-size: 1.5rem;
+    }
+    .card-signin .card-body {
+        padding: 2rem;
+    }
+    .form-signin {
+        width: 100%;
+    }
+    .form-signin .btn {
+        font-size: 80%;
+        border-radius: 5rem;
+        letter-spacing: .1rem;
+        font-weight: bold;
+        padding: 1rem;
+        transition: all 0.2s;
+    }
+    .form-label-group {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+    .form-label-group input {
+        height: auto;
+        border-radius: 2rem;
+    }
+    .form-label-group>input,
+    .form-label-group>label {
+        padding: var(--input-padding-y) var(--input-padding-x);
+    }
+    .form-label-group>label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        margin-bottom: 0;
+        /* Override default `<label>` margin */
+        line-height: 1.5;
+        color: #495057;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+        transition: all .1s ease-in-out;
+    }
+    #forgot{
+        font-size: 14px;
+    }
+    .form-label-group input::-webkit-input-placeholder {
+        color: transparent;
+    }
+    .form-label-group input:-ms-input-placeholder {
+        color: transparent;
+    }
+    .form-label-group input::-ms-input-placeholder {
+        color: transparent;
+    }
+    .form-label-group input::-moz-placeholder {
+        color: transparent;
+    }
+    .form-label-group input::placeholder {
+        color: transparent;
+    }
+    .form-label-group input:not(:placeholder-shown) {
+        padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+        padding-bottom: calc(var(--input-padding-y) / 3);
+    }
+    .form-label-group input:not(:placeholder-shown)~label {
+        padding-top: calc(var(--input-padding-y) / 3);
+        padding-bottom: calc(var(--input-padding-y) / 3);
+        font-size: 12px;
+        color: #777;
+    }
+    .btn-google {
+        color: white;
+        background-color: #ea4335;
+    }
+    .btn-facebook {
+        color: white;
+        background-color: #3b5998;
+    }
+    a{
+        color: white;
+    }
+</style>
 
-    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                          <p>
-                            {{ $message }}
-                          </p>
-                        </div>
-    @endif
-    @if ($message = Session::get('warning'))
-                        <div class="alert alert-warning">
-                          <p>
-                            {{ $message }}
-                          </p>
-                        </div>
-                      @endif
+<body>
 
-<?php   $email = Cookie::get('loginemail'); $password = Cookie::get('loginpassword'); $remember=Cookie::get('rememberme') ?>
-  <form method="POST" action="login">
-<div class="limiter">
-  <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <form class="form-signin">
+                            <div class="form-label-group">
+                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                                    required autofocus>
+                                <label for="inputEmail">Email address</label>
+                            </div>
 
-    <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-      <form class="login100-form validate-form flex-sb flex-w" method="POST" action="login">
-        <span class="login100-form-title p-b-53">
-          Sign In With
-        <div class="col-md-6">
-            {!! csrf_field() !!}
-        <a href="#" class="btn-face m-b-50">
-          <i class="fa fa-facebook-official"></i>
-          Facebook
-        </a>
-      </div>
-
-        <a href="login/google" class="btn-google m-b-15">
-          <img src="images/icons/icon-google.png" alt="GOOGLE">
-          Google
-        </a>
-      </span>
-
-                  <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                      <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                      <div class="col-md-6">
-                          <input id="email" type="email" class="form-control" name="email" value="{{ $email ? $email :old('email') }}" required autofocus>
-
-                          @if ($errors->has('email'))
-                              <span class="help-block">
-                                  <strong>{{ $errors->first('email') }}</strong>
-                              </span>
-                          @endif
-                      </div>
-                  </div>
-
-                  <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                      <label for="password" class="col-md-4 control-label">Password</label>
-
-                      <div class="col-md-6">
-                          <input id="password" type="password" class="form-control" name="password" value="{{ $password ? $password :'' }}" >
-
-                          @if ($errors->has('password'))
-                              <span class="help-block">
-                                  <strong>{{ $errors->first('password') }}</strong>
-                              </span>
-                          @endif
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                      <div class="col-md-6 col-md-offset-4">
-                          <div class="checkbox">
-                              <label>
-                                  <input type="checkbox" name="remember" value="1" {{ $remember ? 'checked' :'' }} > Remember Me
-                              </label>
+                            <div class="form-label-group">
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                    required>
+                                <label for="inputPassword">Password</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="custom-control custom-checkbox mb-3">
+                                        <div class="col-lg-7 inline-block">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Remember password</label>
+                                        </div>
+                                        <div class="col-md-5 inline-block" id="forgot">
+                                            <a class="" href="#">Forgot password?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign
+                                in</button>
+                            <hr class="my-4">
+                        </form>
+                          <div class="form-signin">
+                                <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" onclick="gp_login()">
+                                        <i class="fab fa-google-f mr-2"></i><a href="">Sign in with google</a></button>
+                                <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" onclick="fbLogin()">
+                                        <i class="fab fa-facebook-f mr-2"></i><a href="">Sign in with Facebook</a></button>
                           </div>
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                      <div class="col-md-8 col-md-offset-4">
-                          <button type="submit" class="btn btn-primary">
-                              Login
-                          </button>
-
-                          <a class="btn btn-link" href="{{ url('/forgot-password') }}">
-                              Forgot Your Password?
-                          </a>
-
-
-                      </div>
-
-
-
-
-<div id="dropDownSelect1"></div>
-
-<!--===============================================================================================-->
-<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/daterangepicker/moment.min.js"></script>
-<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-
+                        </div>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="assets/scripts/login.js"></script>
 </body>
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
-</div>
-</div>
+</html>
