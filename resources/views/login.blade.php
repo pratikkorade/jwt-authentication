@@ -4,11 +4,12 @@
 <html>
 
 <head>
+    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <meta name="google-signin-client_id" content="469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com">
-    </head>
+    <meta name="google-signin-client_id" content="469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com">
+</head>
 <style>
     :root {
         --input-padding-x: 1.5rem;
@@ -145,10 +146,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign
+                            <div id="g-captcha" data-callack="onsubmit"></div>
+                                @if($errors->getMessages() && isset($errors->getMessages()['g-captcha']))
+                                @foreach($errors->getMessages()['g-captcha'] as $error)
+                                    <p class="mark">{{ $error }}</p>
+                                @endforeach
+                                @endif
+                                <span id="g-captcha_error"></span>
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value>Sign
                                 in</button>
                             <hr class="my-4">
-                        </form>
                           <div class="form-signin">
                                 <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" onclick="gp_login()">
                                         <i class="fab fa-google-f mr-2"></i><a href="">Sign in with google</a></button>
@@ -169,5 +176,18 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="assets/scripts/login.js"></script>
+    
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            grecaptcha.render(
+                'g-captcha',
+                {"sitekey":"6LfMGZcUAAAAAPDbxwPTpOfYUq1yCjwc17bNJzN2"}
+            )
+        };
+        
+    </script>
+   
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> 
 </body>
 </html>

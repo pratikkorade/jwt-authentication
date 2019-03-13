@@ -63,7 +63,8 @@ var s = document.getElementsByTagName('script')[0];
 s.parentNode.insertBefore(po, s);
 })();
 function onLoadCallback() {
-gapi.auth.checkSessionState({client_id: '469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com'}, googleSessionStatus);
+gapi.auth.checkSessionState({
+    client_id:'469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com'}, googleSessionStatus);
 }
 gp_login = function () {
 var myParams = {
@@ -75,17 +76,20 @@ var myParams = {
 };
 gapi.auth.signIn(myParams);
 }
-gploginCallback = function (result) {
+function gploginCallback(result) {
+    console.log(result);
 if (result['status']['signed_in']) {
     console.log('Please wait few seconds to login', 'success');
     var google_token = result.access_token;
     gapi.auth.checkSessionState({client_id: '469707559402-52lvoielarr6rgr810svlsna3gke5veu.apps.googleusercontent.com'}, true);
+    console.log(google_token);
     getGoogleInfo(google_token);
 } else {
     console.log('Failed to login', 'error');
 }
 }
-getGoogleInfo = function (google_token) {
+function getGoogleInfo(google_token) {
+    console.log(google_token);
 gapi.client.load('plus', 'v1', function () {
     var request = gapi.client.plus.people.get({
         'userId': 'me'
@@ -117,20 +121,19 @@ gapi.client.load('plus', 'v1', function () {
 }
 
 function ajaxRequest(jsonData) {
-    alert('hello');
 $.ajax({
     method: "POST",
-    url: 'account/login/social',
-    data: jsonData
+    url: '/social',
+    data: jsonData 
 })
         .done(function (data) {
             if (data) {
                 location.reload();
             } else {
-                toastrNotification('Failed to login', 'error');
+                console.log('Failed to login', 'error');
             }
         })
         .fail(function (error) {
-            toastrNotification(error, 'error');
+            console.log(error, 'error');
         });
 }

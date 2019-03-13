@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('login');
 });
+Route::post('/social','LoginController@socialLogin');
 // Route::get('/token', function () {
 //     return view('token');
 // });
