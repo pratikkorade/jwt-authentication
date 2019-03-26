@@ -11,15 +11,19 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('login', function () {
     return view('login');
 });
-Route::post('/social','LoginController@socialLogin');
+Route::get('register','RegisterController@index');
+Route::post('register','RegisterController@register');
+Route::post('login','SignInController@signIn');
+Route::get('/', 'MainController@index');
+
 // Route::get('/token', function () {
 //     return view('token');
 // });
-Route::post('login', 'APILoginController@login');
-Route::get('login', 'APILoginController@index');
-Route::post('logout', 'APILoginController@logout');
+// Route::post('login', 'APILoginController@login');
+// Route::get('login', 'APILoginController@index');
+// Route::post('logout', 'APILoginController@logout');
 //Route::post('refresh', 'APILoginController@refresh');
-Route::post('token', 'APILoginController@token');
+// Route::post('token', 'APILoginController@token');

@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class LoginModel extends Model
 {
-    protected $fillable = ['email','password'];
+    protected $fillable = ['username','email','password','confirmpassword'];
     protected $table = 'users';
 }

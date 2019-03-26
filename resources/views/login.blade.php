@@ -111,25 +111,37 @@
     a{
         color: white;
     }
+    .sinreg{
+        margin-top: 10px;
+    }
+    #g-captcha{
+        margin-left: 20px;
+    }
+    .gofb{
+        width: 90%;
+        margin-left: 22px;
+    }
+    .fb{
+        margin-bottom: 10px;
+    }
 </style>
 
 <body>
-
     <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Sign In</h5>
-                        <form class="form-signin">
+                        <form class="form-signin" method="POST" action="/login">
                             <div class="form-label-group">
-                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                                <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"
                                     required autofocus>
                                 <label for="inputEmail">Email address</label>
                             </div>
 
                             <div class="form-label-group">
-                                <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
                                     required>
                                 <label for="inputPassword">Password</label>
                             </div>
@@ -153,15 +165,23 @@
                                 @endforeach
                                 @endif
                                 <span id="g-captcha_error"></span>
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value>Sign
-                                in</button>
+                             <div class="row sinreg">
+                                   <div class="col-md-6">
+                                       <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value>Sign in</button>
+                                   </div>
+                                   <div class="col-md-6">
+                                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="button" onclick="window.location.href='register';">Register</button>
+                                   </div>
+                                </div>
+                             </div>
                             <hr class="my-4">
-                          <div class="form-signin">
+                           <div class="form-signin gofb">
                                 <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" onclick="gp_login()">
                                         <i class="fab fa-google-f mr-2"></i><a href="">Sign in with google</a></button>
-                                <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" onclick="fbLogin()">
+                                <button class="btn btn-lg btn-facebook btn-block text-uppercase fb" type="submit" onclick="fbLogin()">
                                         <i class="fab fa-facebook-f mr-2"></i><a href="">Sign in with Facebook</a></button>
-                          </div>
+                        </form>                
+                           </div>
                         </div>        
                     </div>
                 </div>
@@ -184,7 +204,6 @@
                 {"sitekey":"6LfMGZcUAAAAAPDbxwPTpOfYUq1yCjwc17bNJzN2"}
             )
         };
-        
     </script>
    
 
